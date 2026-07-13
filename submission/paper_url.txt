@@ -1,1 +1,5 @@
 PASTE-YOUR-DEPLOYED-PAPER-URL-HERE
+
+notebook 1 : https://github.com/MagdyTarek18/Week1-Repo/blob/main/01_first_look_and_discovery.ipynb
+
+notebook 2 : https://github.com/MagdyTarek18/Week1-Repo/blob/main/02_your_first_readable_model.ipynb
