@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Which Content Should Be Reviewed First? | Magdy Tarek</title>
+
+<style>
+:root {
+  --bg: #fbfbfc;
+  --paper: #ffffff;
+  --text: #1f2937;
+  --muted: #667085;
+  --line: #e5e7eb;
+  --accent: #5b4b8a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+               BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+
+main {
+  max-width: 920px;
+  margin: 0 auto;
+  background: var(--paper);
+  padding: 56px 46px 90px;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin: 0 0 18px;
+}
+
+h2 {
+  margin-top: 58px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+h3 {
+  margin-top: 30px;
+}
+
+p, li {
+  font-size: 1.02rem;
+}
+
+.lede {
+  font-size: 1.22rem;
+  color: var(--muted);
+  max-width: 760px;
+}
+
+.meta {
+  color: var(--muted);
+  margin-bottom: 34px;
+}
+
+.callout {
+  border-left: 4px solid var(--accent);
+  padding: 12px 18px;
+  background: #f7f5fb;
+  margin: 26px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.card strong {
+  display: block;
+  font-size: 1.45rem;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  margin: 16px 0 4px;
+}
+
+.caption {
+  color: var(--muted);
+  font-size: .92rem;
+  margin-top: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: .94rem;
+}
+
+th, td {
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  padding: 10px 8px;
+  vertical-align: top;
+}
+
+th {
+  background: #fafafa;
+}
+
+a {
+  color: var(--accent);
+}
+
+code {
+  background: #f3f4f6;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+footer {
+  color: var(--muted);
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 700px) {
+  main {
+    padding: 34px 20px 70px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+</style>
+</head>
+
+<body>
+<main>
+
+<header>
+  <div class="meta">
+    Research paper · Magdy Tarek · FlyRank ML Internship capstone
+  </div>
+
+  <h1>Which content should be reviewed first?</h1>
+
+  <p class="lede">
+    A leakage-aware refresh opportunity ranking built from the FlyRank
+    search warehouse, with a transparent baseline, client-grouped
+    validation, and a human-review action playbook.
+  </p>
+</header>
+
+<section id="abstract">
+<h2>Abstract</h2>
+
+<p>
+This study asks which content pages an editor should review first for
+refresh or search optimization.
+It uses the FlyRank internship warehouse, whose daily performance fact
+table contains about 78.8 million pseudonymized rows, with March 2026
+as the feature window and April 2026 as the later outcome window.
+A transparent rule baseline is compared with Logistic Regression on the
+same client-grouped holdout using Precision@50 as the primary ranking metric.
+Logistic Regression concentrated more measured decline cases in the top 50 than the transparent rule (0.96 vs 0.86).
+The result is used as decision-support for human review, not as evidence
+that refreshing a page causes better search performance.
+</p>
+</section>
+
+<section id="introduction">
+<h2>Introduction / problem statement</h2>
+
+<p>
+Content teams rarely have time to inspect every page. The practical
+decision is therefore not “which page is bad?” but
+<strong>“which page should an editor inspect first?”</strong>
+This capstone treats that as a ranking problem.
+</p>
+
+<p>
+A page is labeled as a measured future decline when its average daily
+April impressions are more than 20% below its average daily March
+impressions. The goal is to rank these future-decline cases toward the
+top using only information available by the end of March.
+</p>
+</section>
+
+<section id="data">
+<h2>Data</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <strong>78.8M</strong>
+    daily fact rows in the warehouse release
+  </div>
+
+  <div class="card">
+    <strong>83,483</strong>
+    eligible content rows in this modeling frame
+  </div>
+
+  <div class="card">
+    <strong>8</strong>
+    held-out clients in the grouped test set
+  </div>
+
+</div>
+
+<p>
+Source: FlyRank internship warehouse release
+<code>v20260703</code>, using
+<code>fact_content_daily_performance</code>.
+March 2026 supplies the features; April 2026 supplies the later outcome.
+Rows with weak measurement coverage are filtered before modeling.
+</p>
+
+<p>
+The public paper excludes client names, domains, URLs, keywords,
+private queries, credentials, GA4 features, existing product flags,
+and future April metrics from the feature set.
+</p>
+</section>
+
+<section id="methodology">
+<h2>Methodology</h2>
+
+<h3>Features</h3>
+
+<ul>
+  <li>March log impressions</li>
+  <li>March CTR</li>
+  <li>March impression-weighted average position</li>
+  <li>March visible days</li>
+  <li>March first-half vs second-half daily-impression momentum</li>
+</ul>
+
+<h3>Baseline</h3>
+
+<p>
+The transparent rule ranks visible pages higher when they show one or
+more simple review cues: negative March momentum, CTR below 0.5%, or
+average position in the 11–20 striking-distance range.
+No baseline weight is learned from the label.
+</p>
+
+<h3>Validation and leakage control</h3>
+
+<p>
+Clients are held out as groups with seed 42. No client is shared
+between train and test. Every feature is measured in March; the outcome
+is measured in April. Pseudonymous IDs and April outcome columns are
+never model inputs.
+</p>
+</section>
+
+<section id="results">
+<h2>Results</h2>
+
+<div class="callout">
+  <strong>On the grouped holdout, Logistic Regression ranked more measured decline cases into the top 50 than the rule baseline (0.96 vs 0.86 Precision@50).</strong>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>Method</th>
+  <th>Base rate</th>
+  <th>Precision@20</th>
+  <th>Precision@50</th>
+  <th>ROC-AUC</th>
+</tr>
+</thead>
+
+<tbody>
+
+    <tr>
+      <td>Rule baseline</td>
+      <td>0.626</td>
+      <td>0.850</td>
+      <td>0.860</td>
+      <td>0.594</td>
+    </tr>
+    
+    <tr>
+      <td>Logistic Regression</td>
+      <td>0.626</td>
+      <td>1.000</td>
+      <td>0.960</td>
+      <td>0.682</td>
+    </tr>
+    
+</tbody>
+</table>
+
+<img
+  src="img/model_vs_baseline.png"
+  alt="Model versus baseline precision chart"
+>
+
+<p class="caption">
+Takeaway: both methods are measured on the same held-out clients.
+The useful comparison is top-of-queue precision, not a standalone score.
+</p>
+
+<img
+  src="img/model_coefficients.png"
+  alt="Logistic Regression coefficient chart"
+>
+
+<p class="caption">
+Takeaway: coefficient direction describes how the fitted model used
+standardized March signals. It is not evidence that changing a feature
+will cause a search-performance change.
+</p>
+</section>
+
+<section id="limitations">
+<h2>Limitations & honest framing</h2>
+
+<ul>
+  <li>
+    This is observational and portfolio-specific; it does not establish
+    causal refresh effects.
+  </li>
+
+  <li>
+    The 20% decline threshold is a practical definition, not a universal
+    SEO boundary.
+  </li>
+
+  <li>
+    Only March-to-April behavior is modeled, so seasonality and longer
+    cycles are not fully represented.
+  </li>
+
+  <li>
+    A grouped-client split tests transfer to unseen clients, but a
+    longer rolling time evaluation would be stronger for deployment.
+  </li>
+
+  <li>
+    The model does not observe editorial intent, SERP changes,
+    seasonality explanations, or planned content operations.
+  </li>
+</ul>
+
+<p>
+The safest interpretation is:
+<strong>
+these pages look worth reviewing first because of measured search signals
+</strong>.
+</p>
+</section>
+
+<section id="recommendations">
+<h2>Ranked recommendations</h2>
+
+<p>
+The final held-out queue uses
+<strong>Logistic Regression</strong>,
+the method with the stronger Precision@50 result (with ties going to the
+simpler rule).
+The row-level queue stays outside the public page; only aggregate action
+groups are shown here.
+</p>
+
+<table>
+<thead>
+<tr>
+  <th>Action</th>
+  <th>Reason code</th>
+  <th>Rows</th>
+  <th>Median score</th>
+  <th>Median March impressions</th>
+</tr>
+</thead>
+
+<tbody>
+
+    <tr>
+      <td>CTR_REVIEW</td>
+      <td>page_one_low_ctr</td>
+      <td>3,127</td>
+      <td>0.502</td>
+      <td>913</td>
+    </tr>
+    
+    <tr>
+      <td>MONITOR</td>
+      <td>monitor</td>
+      <td>3,013</td>
+      <td>0.412</td>
+      <td>877</td>
+    </tr>
+    
+    <tr>
+      <td>REFRESH_REVIEW</td>
+      <td>negative_momentum</td>
+      <td>2,781</td>
+      <td>0.605</td>
+      <td>580</td>
+    </tr>
+    
+    <tr>
+      <td>RELEVANCE_REVIEW</td>
+      <td>striking_distance</td>
+      <td>1,762</td>
+      <td>0.481</td>
+      <td>1,019</td>
+    </tr>
+    
+</tbody>
+</table>
+
+<ol>
+  <li>
+    <strong>REFRESH_REVIEW:</strong>
+    inspect pages with negative recent momentum first.
+  </li>
+
+  <li>
+    <strong>CTR_REVIEW:</strong>
+    inspect visible page-one content with weak click capture.
+  </li>
+
+  <li>
+    <strong>RELEVANCE_REVIEW:</strong>
+    inspect pages in positions 11–20 for focused relevance or
+    internal-link review.
+  </li>
+
+  <li>
+    <strong>MONITOR:</strong>
+    leave lower-priority cases for observation rather than automatic editing.
+  </li>
+</ol>
+
+<h3>Human review is mandatory</h3>
+
+<p>
+Before acting, check search intent, seasonality, SERP context, actual
+content freshness, overlap with other pages, and editorial requirements.
+Do not automatically publish rewrites, delete pages, redirect URLs,
+add noindex, change canonicals, make revenue claims, or promise a traffic lift.
+</p>
+
+<h3>Monitoring</h3>
+
+<p>
+Recheck the ranking monthly. Review the model or rule if Precision@50
+falls below the current base rate, drops by more than 10 percentage
+points, the label definition changes, or the feature pipeline changes
+materially.
+</p>
+</section>
+
+<section id="reproducibility">
+<h2>Reproducibility</h2>
+
+<p>
+Random seed: <code>42</code>.
+The notebook queries the gated warehouse through DuckDB using a Hugging
+Face READ token stored outside the notebook.
+</p>
+
+<ul>
+  <li>
+    <a href="https://github.com/MagdyTarek18/Week1-Repo">
+      Project repository
+    </a>
+  </li>
+
+  <li>
+    <a href="https://github.com/MagdyTarek18/Week1-Repo/blob/main/work/notebooks/capstone.ipynb">
+      Capstone notebook
+    </a>
+  </li>
+
+  <li>
+    <a href="https://github.com/MagdyTarek18/Week1-Repo/blob/main/work/notebooks/w06_validation_audit.ipynb">
+      Validation audit
+    </a>
+  </li>
+
+  <li>
+    <a href="https://github.com/MagdyTarek18/Week1-Repo/blob/main/work/notebooks/w07_action_playbook.ipynb">
+      Action playbook
+    </a>
+  </li>
+</ul>
+</section>
+
+<section id="acknowledgments">
+<h2>Acknowledgments & data credit</h2>
+
+<p>
+Built on the
+<a
+  href="https://flyrank.ai"
+  target="_blank"
+  rel="noopener"
+>
+FlyRank ML Internship dataset
+</a>.
+Thanks to FlyRank for providing the pseudonymized warehouse and
+internship research framework.
+</p>
+</section>
+
+<footer>
+<p>
+Research artifact by Magdy Tarek.
+Claims are intentionally limited to observed and measured relationships
+in this dataset and validation design.
+</p>
+</footer>
+
+</main>
+</body>
+</html>
